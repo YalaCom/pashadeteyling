@@ -1,6 +1,6 @@
-# D&D Detailing Studio
+# DplusD Detailing Center
 
-Премиальный одностраничный сайт московского детейлинг-центра D&D Detailing Studio.
+Премиальный одностраничный сайт московского детейлинг-центра DplusD Detailing Center.
 
 ## Что реализовано
 

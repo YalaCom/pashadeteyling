@@ -167,25 +167,17 @@ img {
 }
 
 .brand {
-  position: relative;
   display: block;
-  width: 214px;
-  aspect-ratio: 3.15;
-  overflow: hidden;
-  isolation: isolate;
+  width: 204px;
+  aspect-ratio: 1027 / 403;
 }
 
 .brand img,
 .footer-logo img {
-  position: absolute;
-  top: 50%;
-  left: 0;
   width: 100%;
-  max-width: none;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
   filter: invert(1);
-  mix-blend-mode: screen;
-  transform: translateY(-50%);
 }
 
 .desktop-nav {
@@ -354,6 +346,22 @@ img {
     transform 180ms ease;
 }
 
+.arrow-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+.arrow-icon path {
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
 .button:hover {
   transform: translateY(-2px);
 }
@@ -468,6 +476,11 @@ img {
     transform 180ms ease;
 }
 
+.service-arrow .arrow-icon {
+  width: 16px;
+  height: 16px;
+}
+
 .service-row:hover .service-arrow {
   border-color: var(--accent);
   color: var(--accent);
@@ -536,6 +549,11 @@ img {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.text-link .arrow-icon {
+  width: 17px;
+  height: 17px;
 }
 
 .works-section {
@@ -893,9 +911,12 @@ img {
   color: #615f5a;
 }
 
-.booking-form input[type="date"],
-.booking-form input[type="time"] {
+.booking-form input[type="date"] {
   color-scheme: dark;
+}
+
+.booking-form select[name="visitTime"] {
+  font-variant-numeric: tabular-nums;
 }
 
 .form-comment {
@@ -1027,12 +1048,21 @@ img {
 }
 
 .footer-logo {
-  position: relative;
   display: block;
-  width: 200px;
-  aspect-ratio: 3.15;
-  overflow: hidden;
-  isolation: isolate;
+  width: 190px;
+  aspect-ratio: 1027 / 403;
+}
+
+.footer-top-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.footer-top-link .arrow-icon {
+  width: 14px;
+  height: 14px;
 }
 
 .footer-inner p,
@@ -1151,7 +1181,7 @@ img {
   }
 
   .brand {
-    width: 186px;
+    width: 174px;
   }
 
   .desktop-nav,
@@ -1382,7 +1412,7 @@ img {
   }
 
   .brand {
-    width: 148px;
+    width: 142px;
   }
 
   .menu-label {
@@ -1417,6 +1447,7 @@ img {
   }
 
   .hero-media video {
+    object-fit: cover;
     object-position: 50% center;
     filter: saturate(0.64) contrast(1.13) brightness(0.6);
   }
@@ -1440,16 +1471,16 @@ img {
   }
 
   .hero h1 {
-    max-width: 560px;
-    font-size: clamp(54px, 16vw, 72px);
-    line-height: 0.84;
+    max-width: 390px;
+    font-size: clamp(50px, 14.5vw, 62px);
+    line-height: 0.86;
   }
 
   .hero h1 span {
-    max-width: 350px;
+    max-width: 340px;
     margin-top: 9px;
-    font-size: 0.52em;
-    line-height: 1;
+    font-size: 0.46em;
+    line-height: 1.06;
   }
 
   .hero-copy {
@@ -1711,7 +1742,7 @@ img {
   }
 
   .footer-logo {
-    width: 146px;
+    width: 142px;
   }
 
   .footer-inner p {
@@ -1738,6 +1769,11 @@ img {
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
+  }
+
+  .mobile-booking-bar .arrow-icon {
+    width: 19px;
+    height: 19px;
   }
 
   .motion-ready [data-reveal] {

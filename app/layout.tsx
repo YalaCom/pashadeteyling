@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "D&D Detailing Studio — детейлинг в Москве",
+  title: "DplusD Detailing Center — детейлинг в Москве",
   description:
     "Комплексный детейлинг кузова и салона в Москве: полировка, химчистка, керамика, оклейка плёнкой и восстановление деталей.",
   other: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     shortcut: "/favicon.svg",
   },
   openGraph: {
-    title: "D&D Detailing Studio",
+    title: "DplusD Detailing Center",
     description: "Комплексный уход за автомобилем в Москве.",
     images: ["/images/hero.webp"],
     type: "website",

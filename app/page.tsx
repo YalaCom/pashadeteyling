@@ -50,6 +50,13 @@ const services = [
   },
 ];
 
+const timeSlots = Array.from({ length: 25 }, (_, index) => {
+  const totalMinutes = 9 * 60 + index * 30;
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+});
+
 const gallery = [
   { src: "/images/work-range.webp", alt: "Range Rover после детейлинга" },
   { src: "/images/work-dent.webp", alt: "Удаление вмятины без окрашивания" },
@@ -85,6 +92,30 @@ const faqs = [
 ];
 
 type SubmitState = "idle" | "sending" | "success" | "error";
+
+function ArrowUpRightIcon({ className = "arrow-icon" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+      <path d="M5 15 15 5M7 5h8v8" />
+    </svg>
+  );
+}
+
+function ArrowRightIcon({ className = "arrow-icon" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+      <path d="M4 10h12m-5-5 5 5-5 5" />
+    </svg>
+  );
+}
+
+function ArrowUpIcon({ className = "arrow-icon" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+      <path d="M10 16V4M5 9l5-5 5 5" />
+    </svg>
+  );
+}
 
 export default function Home() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
@@ -217,7 +248,7 @@ export default function Home() {
       <header className="site-header">
         <div className="shell header-inner">
           <a className="brand" href="#top" aria-label="DplusD Detailing Center">
-            <img src="/logo-new.png" alt="DplusD Detailing Center" />
+            <img src="/logo.png" alt="DplusD Detailing Center" />
           </a>
 
           <nav className="desktop-nav" aria-label="Основная навигация">
@@ -262,6 +293,7 @@ export default function Home() {
             preload="auto"
             tabIndex={-1}
           >
+            <source media="(max-width: 620px)" src="/hero-detailing-mobile.mp4" type="video/mp4" />
             <source src="/hero-detailing.mp4" type="video/mp4" />
           </video>
         </div>
@@ -279,7 +311,7 @@ export default function Home() {
           <div className="hero-actions">
             <a className="button button-primary" href="#booking">
               Записаться
-              <span aria-hidden="true">↗</span>
+              <ArrowUpRightIcon />
             </a>
             <a className="button button-ghost" href="#services">
               Смотреть услуги
@@ -314,7 +346,7 @@ export default function Home() {
                 <h3>{service.title}</h3>
                 <p>{service.short}</p>
                 <span className="service-arrow" aria-hidden="true">
-                  ↗
+                  <ArrowUpRightIcon />
                 </span>
               </a>
             ))}
@@ -335,7 +367,7 @@ export default function Home() {
               вид автомобиля.
             </p>
             <a className="text-link" href="#booking">
-              Получить консультацию <span aria-hidden="true">→</span>
+              Получить консультацию <ArrowRightIcon />
             </a>
           </div>
           <div className="craft-image craft-image-detail" data-reveal="image" role="img" aria-label="Детейлинг интерьера автомобиля" />
@@ -363,7 +395,7 @@ export default function Home() {
                 <img src={item.src} alt={item.alt} loading="lazy" />
                 <figcaption>
                   <span>Работа {String(index + 1).padStart(2, "0")}</span>
-                  <span>D&amp;D Studio</span>
+                  <span>DplusD Studio</span>
                 </figcaption>
               </figure>
             ))}
@@ -472,7 +504,12 @@ export default function Home() {
               </label>
               <label>
                 <span>Желаемое время</span>
-                <input name="visitTime" type="time" required />
+                <select name="visitTime" required defaultValue="">
+                  <option value="" disabled>Выберите время</option>
+                  {timeSlots.map((time) => (
+                    <option value={time} key={time}>{time}</option>
+                  ))}
+                </select>
               </label>
             </div>
             <label className="form-comment">
@@ -504,7 +541,7 @@ export default function Home() {
       <section className="contact-section" id="contacts">
         <div className="shell contact-grid">
           <div data-reveal="up">
-            <p className="eyebrow">D&amp;D Detailing Studio</p>
+            <p className="eyebrow">DplusD Detailing Center</p>
             <h2>Привезите автомобиль. Остальное — наша работа.</h2>
           </div>
           <div className="contact-list" data-reveal="up">
@@ -519,16 +556,16 @@ export default function Home() {
       <footer className="site-footer">
         <div className="shell footer-inner">
           <span className="footer-logo">
-            <img src="/logo-new.png" alt="DplusD Detailing Center" />
+            <img src="/logo.png" alt="DplusD Detailing Center" />
           </span>
-          <p>© 2026 D&amp;D Detailing Studio. Все права защищены.</p>
-          <a href="#top">Наверх ↑</a>
+          <p>© 2026 DplusD Detailing Center. Все права защищены.</p>
+          <a className="footer-top-link" href="#top">Наверх <ArrowUpIcon /></a>
         </div>
       </footer>
 
       <a className="mobile-booking-bar" href="#booking">
         <span>Записаться</span>
-        <span aria-hidden="true">↗</span>
+        <ArrowUpRightIcon />
       </a>
     </main>
   );
