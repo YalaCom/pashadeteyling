@@ -96,6 +96,8 @@ export default function Home() {
     const revealItems = Array.from(
       document.querySelectorAll<HTMLElement>("[data-reveal]"),
     );
+    const hero = document.querySelector<HTMLElement>(".hero");
+    const heroVideo = document.querySelector<HTMLVideoElement>(".hero-media video");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let scrollFrame = 0;
 
@@ -114,9 +116,11 @@ export default function Home() {
     };
 
     let observer: IntersectionObserver | undefined;
+    let videoObserver: IntersectionObserver | undefined;
 
     if (reduceMotion || !("IntersectionObserver" in window)) {
       revealItems.forEach((item) => item.classList.add("is-visible"));
+      if (reduceMotion) heroVideo?.pause();
     } else {
       observer = new IntersectionObserver(
         (entries) => {
@@ -129,6 +133,20 @@ export default function Home() {
         { rootMargin: "0px 0px -10%", threshold: 0.08 },
       );
       revealItems.forEach((item) => observer?.observe(item));
+
+      if (hero && heroVideo) {
+        videoObserver = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              void heroVideo.play().catch(() => undefined);
+            } else {
+              heroVideo.pause();
+            }
+          },
+          { threshold: 0.05 },
+        );
+        videoObserver.observe(hero);
+      }
     }
 
     updateScroll();
@@ -137,6 +155,7 @@ export default function Home() {
 
     return () => {
       observer?.disconnect();
+      videoObserver?.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
@@ -232,7 +251,20 @@ export default function Home() {
       </header>
 
       <section className="hero" aria-labelledby="hero-title">
-        <div className="hero-image" aria-hidden="true" />
+        <div className="hero-media" aria-hidden="true">
+          <video
+            autoPlay
+            disablePictureInPicture
+            loop
+            muted
+            playsInline
+            poster="/images/hero.webp"
+            preload="auto"
+            tabIndex={-1}
+          >
+            <source src="/hero-detailing.mp4" type="video/mp4" />
+          </video>
+        </div>
         <div className="hero-vignette" aria-hidden="true" />
         <div className="shell hero-content">
           <p className="eyebrow">Москва · Краснобогатырская 89, стр. 4</p>
