@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 const services = [
   {
@@ -90,6 +90,64 @@ export default function Home() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [submitMessage, setSubmitMessage] = useState("");
 
+  useEffect(() => {
+    const root = document.documentElement;
+    const progress = document.querySelector<HTMLElement>(".scroll-progress__bar");
+    const revealItems = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-reveal]"),
+    );
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let scrollFrame = 0;
+
+    root.classList.add("motion-ready");
+
+    const updateScroll = () => {
+      scrollFrame = 0;
+      const scrollRange = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = scrollRange > 0 ? Math.min(window.scrollY / scrollRange, 1) : 0;
+      root.classList.toggle("site-scrolled", window.scrollY > 24);
+      progress?.style.setProperty("transform", `scaleX(${ratio})`);
+    };
+
+    const onScroll = () => {
+      if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScroll);
+    };
+
+    let observer: IntersectionObserver | undefined;
+
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+    } else {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            observer?.unobserve(entry.target);
+          });
+        },
+        { rootMargin: "0px 0px -10%", threshold: 0.08 },
+      );
+      revealItems.forEach((item) => observer?.observe(item));
+    }
+
+    updateScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
+      root.classList.remove("motion-ready", "site-scrolled");
+    };
+  }, []);
+
+  function closeMobileMenu() {
+    document.querySelector<HTMLDetailsElement>(".mobile-menu")?.removeAttribute("open");
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
@@ -134,6 +192,9 @@ export default function Home() {
 
   return (
     <main id="top">
+      <div className="scroll-progress" aria-hidden="true">
+        <span className="scroll-progress__bar" />
+      </div>
       <header className="site-header">
         <div className="shell header-inner">
           <a className="brand" href="#top" aria-label="D&D Detailing Studio">
@@ -152,13 +213,19 @@ export default function Home() {
           </a>
 
           <details className="mobile-menu">
-            <summary aria-label="Открыть меню">Меню</summary>
+            <summary aria-label="Открыть меню">
+              <span className="menu-label">Меню</span>
+              <span className="menu-icon" aria-hidden="true">
+                <i />
+                <i />
+              </span>
+            </summary>
             <nav>
-              <a href="#services">Услуги</a>
-              <a href="#works">Работы</a>
-              <a href="#offers">Акции</a>
-              <a href="#contacts">Контакты</a>
-              <a href="tel:+79165042101">+7 916 504-21-01</a>
+              <a href="#services" onClick={closeMobileMenu}>Услуги</a>
+              <a href="#works" onClick={closeMobileMenu}>Работы</a>
+              <a href="#offers" onClick={closeMobileMenu}>Акции</a>
+              <a href="#contacts" onClick={closeMobileMenu}>Контакты</a>
+              <a href="tel:+79165042101" onClick={closeMobileMenu}>+7 916 504-21-01</a>
             </nav>
           </details>
         </div>
@@ -197,7 +264,7 @@ export default function Home() {
 
       <section className="section services-section" id="services">
         <div className="shell">
-          <div className="section-heading split-heading">
+          <div className="section-heading split-heading" data-reveal="up">
             <div>
               <p className="eyebrow">Полный комплекс</p>
               <h2>Услуги студии</h2>
@@ -210,7 +277,7 @@ export default function Home() {
 
           <div className="services-list">
             {services.map((service) => (
-              <a className="service-row" href="#booking" key={service.number}>
+              <a className="service-row" data-reveal="row" href="#booking" key={service.number}>
                 <span className="service-number">{service.number}</span>
                 <h3>{service.title}</h3>
                 <p>{service.short}</p>
@@ -225,8 +292,8 @@ export default function Home() {
 
       <section className="section craft-section">
         <div className="shell craft-grid">
-          <div className="craft-image craft-image-main" role="img" aria-label="Полировка кузова автомобиля" />
-          <div className="craft-copy">
+          <div className="craft-image craft-image-main" data-reveal="image" role="img" aria-label="Полировка кузова автомобиля" />
+          <div className="craft-copy" data-reveal="up">
             <p className="eyebrow">Точность в каждой детали</p>
             <h2>Не маскируем. Восстанавливаем.</h2>
             <p>
@@ -239,13 +306,13 @@ export default function Home() {
               Получить консультацию <span aria-hidden="true">→</span>
             </a>
           </div>
-          <div className="craft-image craft-image-detail" role="img" aria-label="Детейлинг интерьера автомобиля" />
+          <div className="craft-image craft-image-detail" data-reveal="image" role="img" aria-label="Детейлинг интерьера автомобиля" />
         </div>
       </section>
 
       <section className="section works-section" id="works">
         <div className="shell">
-          <div className="section-heading split-heading">
+          <div className="section-heading split-heading" data-reveal="up">
             <div>
               <p className="eyebrow">Реальные автомобили</p>
               <h2>Наши работы</h2>
@@ -256,9 +323,11 @@ export default function Home() {
             </p>
           </div>
 
+          <p className="mobile-swipe-hint" aria-hidden="true">Проведите в сторону, чтобы увидеть больше</p>
+
           <div className="gallery-grid">
             {gallery.map((item, index) => (
-              <figure className={`gallery-item gallery-item-${index + 1}`} key={item.src}>
+              <figure className={`gallery-item gallery-item-${index + 1}`} data-reveal="image" key={item.src}>
                 <img src={item.src} alt={item.alt} loading="lazy" />
                 <figcaption>
                   <span>Работа {String(index + 1).padStart(2, "0")}</span>
@@ -272,13 +341,13 @@ export default function Home() {
 
       <section className="section offers-section" id="offers">
         <div className="shell">
-          <div className="section-heading">
+          <div className="section-heading" data-reveal="up">
             <p className="eyebrow">Специальные условия</p>
             <h2>Актуальные предложения</h2>
           </div>
 
           <div className="offers-grid">
-            <article className="offer-card offer-card-dark">
+            <article className="offer-card offer-card-dark" data-reveal="up">
               <span className="offer-index">01</span>
               <p className="offer-value">−10%</p>
               <h3>Сезонная мойка автомобиля</h3>
@@ -288,7 +357,7 @@ export default function Home() {
               </p>
               <a href="#booking">Записаться</a>
             </article>
-            <article className="offer-card offer-card-image">
+            <article className="offer-card offer-card-image" data-reveal="up">
               <span className="offer-index">02</span>
               <p className="offer-value">В подарок</p>
               <h3>Мойка ДВС и подкапотного пространства</h3>
@@ -301,7 +370,7 @@ export default function Home() {
 
       <section className="section faq-section">
         <div className="shell faq-grid">
-          <div className="section-heading faq-heading">
+          <div className="section-heading faq-heading" data-reveal="up">
             <p className="eyebrow">Перед записью</p>
             <h2>Частые вопросы</h2>
             <p>
@@ -311,7 +380,7 @@ export default function Home() {
           </div>
           <div className="faq-list">
             {faqs.map((item, index) => (
-              <details key={item.question} open={index === 0}>
+              <details key={item.question} data-reveal="row" open={index === 0}>
                 <summary>
                   <span>{item.question}</span>
                   <span className="faq-plus" aria-hidden="true">+</span>
@@ -325,7 +394,7 @@ export default function Home() {
 
       <section className="section booking-section" id="booking">
         <div className="shell booking-grid">
-          <div className="booking-intro">
+          <div className="booking-intro" data-reveal="up">
             <p className="eyebrow">Консультация и запись</p>
             <h2>Рассчитаем стоимость для вашего автомобиля</h2>
             <p>
@@ -341,7 +410,7 @@ export default function Home() {
             </div>
           </div>
 
-          <form className="booking-form" onSubmit={handleSubmit}>
+          <form className="booking-form" data-reveal="up" onSubmit={handleSubmit}>
             <div className="form-grid">
               <label>
                 <span>Ваше имя</span>
@@ -402,11 +471,11 @@ export default function Home() {
 
       <section className="contact-section" id="contacts">
         <div className="shell contact-grid">
-          <div>
+          <div data-reveal="up">
             <p className="eyebrow">D&amp;D Detailing Studio</p>
             <h2>Привезите автомобиль. Остальное — наша работа.</h2>
           </div>
-          <div className="contact-list">
+          <div className="contact-list" data-reveal="up">
             <a href="tel:+79165042101">+7 916 504-21-01</a>
             <a href="mailto:info@dplusd.moscow">info@dplusd.moscow</a>
             <p>Москва, ул. Краснобогатырская, д. 89, стр. 4</p>
@@ -422,6 +491,11 @@ export default function Home() {
           <a href="#top">Наверх ↑</a>
         </div>
       </footer>
+
+      <a className="mobile-booking-bar" href="#booking">
+        <span>Записаться</span>
+        <span aria-hidden="true">↗</span>
+      </a>
     </main>
   );
 }
