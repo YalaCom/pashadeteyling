@@ -166,9 +166,26 @@ img {
   gap: 48px;
 }
 
-.brand img {
+.brand {
+  position: relative;
+  display: block;
   width: 214px;
+  aspect-ratio: 3.15;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.brand img,
+.footer-logo img {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  max-width: none;
   height: auto;
+  filter: invert(1);
+  mix-blend-mode: screen;
+  transform: translateY(-50%);
 }
 
 .desktop-nav {
@@ -986,8 +1003,13 @@ img {
   gap: 30px;
 }
 
-.footer-inner img {
+.footer-logo {
+  position: relative;
+  display: block;
   width: 200px;
+  aspect-ratio: 3.15;
+  overflow: hidden;
+  isolation: isolate;
 }
 
 .footer-inner p,
@@ -1105,7 +1127,7 @@ img {
     grid-template-columns: 1fr auto;
   }
 
-  .brand img {
+  .brand {
     width: 186px;
   }
 
@@ -1336,7 +1358,7 @@ img {
     min-height: 68px;
   }
 
-  .brand img {
+  .brand {
     width: 148px;
   }
 
@@ -1661,7 +1683,7 @@ img {
     padding: 28px 0;
   }
 
-  .footer-inner img {
+  .footer-logo {
     width: 146px;
   }
 

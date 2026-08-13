@@ -197,8 +197,8 @@ export default function Home() {
       </div>
       <header className="site-header">
         <div className="shell header-inner">
-          <a className="brand" href="#top" aria-label="D&D Detailing Studio">
-            <img src="/logo.svg" alt="D&D Detailing Studio" />
+          <a className="brand" href="#top" aria-label="DplusD Detailing Center">
+            <img src="/logo-new.png" alt="DplusD Detailing Center" />
           </a>
 
           <nav className="desktop-nav" aria-label="Основная навигация">
@@ -486,7 +486,9 @@ export default function Home() {
 
       <footer className="site-footer">
         <div className="shell footer-inner">
-          <img src="/logo.svg" alt="D&D Detailing Studio" />
+          <span className="footer-logo">
+            <img src="/logo-new.png" alt="DplusD Detailing Center" />
+          </span>
           <p>© 2026 D&amp;D Detailing Studio. Все права защищены.</p>
           <a href="#top">Наверх ↑</a>
         </div>
