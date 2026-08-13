@@ -563,10 +563,6 @@ export default function Home() {
         </div>
       </footer>
 
-      <a className="mobile-booking-bar" href="#booking">
-        <span>Записаться</span>
-        <ArrowUpRightIcon />
-      </a>
     </main>
   );
 }
