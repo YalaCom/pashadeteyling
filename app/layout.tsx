@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://detailing-center.grumps-soils-2qv8m61.chatgpt.site"),
   title: "DplusD Detailing Center — детейлинг автомобилей в Москве",
   description:
     "Детейлинг кузова и салона в Москве: полировка, химчистка, керамика, оклейка плёнкой и восстановление деталей.",
@@ -21,10 +22,16 @@ export const metadata: Metadata = {
     shortcut: "/favicon.svg",
   },
   openGraph: {
-    title: "DplusD Detailing Center",
-    description: "Детейлинг, который видно с первого взгляда.",
-    images: ["/images/hero.webp"],
+    title: "DplusD Detailing Center — Москва",
+    description: "Детейлинг без компромиссов. Кузов, салон, защита и восстановление.",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "DplusD Detailing Center" }],
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DplusD Detailing Center — Москва",
+    description: "Детейлинг без компромиссов.",
+    images: ["/og.png"],
   },
 };
 
