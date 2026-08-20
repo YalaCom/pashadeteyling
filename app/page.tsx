@@ -51,6 +51,7 @@ export default function Home() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [submitMessage, setSubmitMessage] = useState("");
   const [introNumber, setIntroNumber] = useState(1);
+  const [introPreviousNumber, setIntroPreviousNumber] = useState<number | null>(null);
   const [introPhase, setIntroPhase] = useState<IntroPhase>("counting");
 
   useEffect(() => {
@@ -81,11 +82,14 @@ export default function Home() {
       timers.push(window.setTimeout(finishIntro, 850));
     } else {
       [2, 3, 4, 5, 6, 7].forEach((number, index) => {
-        timers.push(window.setTimeout(() => setIntroNumber(number), 260 * (index + 1)));
+        timers.push(window.setTimeout(() => {
+          setIntroPreviousNumber(number - 1);
+          setIntroNumber(number);
+        }, 420 * (index + 1)));
       });
-      timers.push(window.setTimeout(() => setIntroPhase("finale"), 2100));
-      timers.push(window.setTimeout(() => setIntroPhase("leaving"), 3350));
-      timers.push(window.setTimeout(finishIntro, 3900));
+      timers.push(window.setTimeout(() => setIntroPhase("finale"), 3200));
+      timers.push(window.setTimeout(() => setIntroPhase("leaving"), 4400));
+      timers.push(window.setTimeout(finishIntro, 4950));
     }
 
     return () => {
@@ -180,7 +184,8 @@ export default function Home() {
         <div className={`intro-screen intro-screen--${introPhase}`} aria-hidden="true">
           <div className="intro-meta"><span>DplusD / Detailing center</span><span>00:{String(introNumber).padStart(2, "0")}</span></div>
           <div className="intro-stage">
-            <span className="intro-figure" key={introNumber}>{String(introNumber).padStart(2, "0")}</span>
+            {introPreviousNumber !== null && <span className="intro-figure intro-figure--previous" key={`previous-${introPreviousNumber}`}>{String(introPreviousNumber).padStart(2, "0")}</span>}
+            <span className="intro-figure intro-figure--current" key={`current-${introNumber}`}>{String(introNumber).padStart(2, "0")}</span>
             <div className="intro-claim"><strong>лет</strong><span>на рынке</span></div>
           </div>
           <div className="intro-track">
@@ -224,7 +229,7 @@ export default function Home() {
             <h1 id="hero-title"><span>А тебе нужен</span><strong>Детейлинг?</strong></h1>
           </div>
           <div className="hero-footer">
-            <a className="round-action" href="#works"><span>Хочу</span><ArrowIcon direction="down" /></a>
+            <a className="round-action" href="#works"><span>Да!</span><ArrowIcon direction="down" /></a>
             <p><span>7 лет опыта</span><span>Кузов · Салон · Защита</span></p>
           </div>
         </section>
