@@ -84,11 +84,11 @@ export default function Home() {
       timers.push(window.setTimeout(finishIntro, 1050));
     } else {
       [2, 3, 4, 5, 6, 7].forEach((number, index) => {
-        timers.push(window.setTimeout(() => setIntroNumber(number), 520 * (index + 1)));
+        timers.push(window.setTimeout(() => setIntroNumber(number), 410 * (index + 1)));
       });
-      timers.push(window.setTimeout(() => setIntroPhase("reveal"), 3660));
-      timers.push(window.setTimeout(() => setIntroPhase("exit"), 5000));
-      timers.push(window.setTimeout(finishIntro, 5800));
+      timers.push(window.setTimeout(() => setIntroPhase("reveal"), 3120));
+      timers.push(window.setTimeout(() => setIntroPhase("exit"), 4750));
+      timers.push(window.setTimeout(finishIntro, 5450));
     }
 
     return () => {
@@ -187,10 +187,13 @@ export default function Home() {
     <>
       {introPhase !== "done" && (
         <div className={`intro-screen intro-screen--${introPhase}`} aria-hidden="true">
+          <div className="intro-atmosphere" />
+          <div className="intro-frame"><span /><span /></div>
           <div className="intro-lockup">
-            <span className="intro-number" key={introNumber}>{introNumber}</span>
-            <span className="intro-label">лет на рынке</span>
+            <span className="intro-number" data-number={introNumber} key={introNumber}>{introNumber}</span>
+            <span className="intro-label"><span>лет</span><span>на рынке</span></span>
           </div>
+          <div className="intro-progress"><span style={{ transform: `scaleX(${introNumber / 7})` }} /></div>
         </div>
       )}
 
