@@ -13,19 +13,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DplusD Detailing Center — детейлинг в Москве",
+  title: "DplusD Detailing Center — детейлинг автомобилей в Москве",
   description:
-    "Комплексный детейлинг кузова и салона в Москве: полировка, химчистка, керамика, оклейка плёнкой и восстановление деталей.",
-  other: {
-    "codex-preview": "development",
-  },
+    "Детейлинг кузова и салона в Москве: полировка, химчистка, керамика, оклейка плёнкой и восстановление деталей.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
   openGraph: {
     title: "DplusD Detailing Center",
-    description: "Комплексный уход за автомобилем в Москве.",
+    description: "Детейлинг, который видно с первого взгляда.",
     images: ["/images/hero.webp"],
     type: "website",
   },

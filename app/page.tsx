@@ -3,51 +3,29 @@
 import { FormEvent, useEffect, useState } from "react";
 
 const services = [
-  {
-    number: "01",
-    title: "Детейлинг-мойка",
-    short: "Тщательная очистка кузова, салона и труднодоступных деталей.",
-  },
-  {
-    number: "02",
-    title: "Химчистка салона",
-    short: "Глубокая очистка пятен и запахов без повреждения материалов.",
-  },
-  {
-    number: "03",
-    title: "Оклейка плёнкой",
-    short: "Антигравийная защита ЛКП, стекла и глянцевых элементов.",
-  },
-  {
-    number: "04",
-    title: "Выпрямление вмятин",
-    short: "Ремонт без окрашивания с сохранением заводского покрытия.",
-  },
-  {
-    number: "05",
-    title: "Полировка",
-    short: "Возвращаем глубину цвета, гладкость и естественный блеск.",
-  },
-  {
-    number: "06",
-    title: "Реставрация кожи",
-    short: "Восстановление внешнего вида кожаных деталей салона.",
-  },
-  {
-    number: "07",
-    title: "Керамическое покрытие",
-    short: "Защита от УФ, воды и грязи с выразительным блеском кузова.",
-  },
-  {
-    number: "08",
-    title: "Предпродажная подготовка",
-    short: "Комплекс для кузова, салона и подкапотного пространства.",
-  },
-  {
-    number: "09",
-    title: "Тонировка",
-    short: "Комфорт, приватность и защита интерьера от перегрева.",
-  },
+  { number: "01", title: "Детейлинг-мойка", short: "Безопасно очищаем кузов, диски, проёмы и труднодоступные зоны." },
+  { number: "02", title: "Химчистка салона", short: "Удаляем глубокие загрязнения и запахи, сохраняя фактуру материалов." },
+  { number: "03", title: "Оклейка плёнкой", short: "Защищаем лак, стекло и глянцевые элементы от сколов и царапин." },
+  { number: "04", title: "Выпрямление вмятин", short: "Возвращаем геометрию детали без окрашивания и потери заводского ЛКП." },
+  { number: "05", title: "Полировка", short: "Убираем риски и голограммы, возвращаем цвету глубину и чистое отражение." },
+  { number: "06", title: "Реставрация кожи", short: "Восстанавливаем цвет, мягкость и аккуратный вид кожаных элементов." },
+  { number: "07", title: "Керамическое покрытие", short: "Создаём гидрофобную защиту с выразительным блеском и лёгким уходом." },
+  { number: "08", title: "Предпродажная подготовка", short: "Комплексно приводим кузов и салон в состояние, которое продаёт автомобиль." },
+  { number: "09", title: "Тонировка", short: "Добавляем приватность, комфорт и защиту интерьера от перегрева." },
+];
+
+const projects = [
+  { number: "01", src: "/works/gtr.webp", alt: "Синий Nissan GT-R после детейлинга в студии DplusD", car: "Nissan GT-R", task: "Защитный комплекс" },
+  { number: "02", src: "/works/mercedes.webp", alt: "Чёрный Mercedes-Benz S-класса после полировки", car: "Mercedes-Benz S-Class", task: "Полировка кузова" },
+  { number: "03", src: "/works/bmw.webp", alt: "Белый BMW M5 после финишного детейлинга", car: "BMW M5", task: "Финишный детейлинг" },
+  { number: "04", src: "/works/porsche.webp", alt: "Красный Porsche 911 во время детейлинг-мойки", car: "Porsche 911", task: "Детейлинг-мойка" },
+  { number: "05", src: "/works/audi.webp", alt: "Матовый Audi RS 7 после ухода за кузовом", car: "Audi RS 7", task: "Уход за матовым кузовом" },
+  { number: "06", src: "/works/range-rover.webp", alt: "Чёрный Range Rover во время комплексной мойки", car: "Range Rover Sport", task: "Комплексная мойка" },
+];
+
+const comparisons = [
+  { number: "01", src: "/works/before-after-paint.webp", alt: "Лакокрасочное покрытие автомобиля до и после полировки", title: "Кузов", text: "Глубокие риски и паутина ушли. Осталось чистое отражение." },
+  { number: "02", src: "/works/before-after-interior.webp", alt: "Салон Mercedes до и после химчистки", title: "Салон", text: "Следы эксплуатации убраны, фактура и цвет материалов восстановлены." },
 ];
 
 const timeSlots = Array.from({ length: 25 }, (_, index) => {
@@ -57,64 +35,18 @@ const timeSlots = Array.from({ length: 25 }, (_, index) => {
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
 });
 
-const gallery = [
-  { src: "/images/work-range.webp", alt: "Range Rover после детейлинга" },
-  { src: "/images/work-dent.webp", alt: "Удаление вмятины без окрашивания" },
-  { src: "/images/work-mercedes-1.webp", alt: "Mercedes после комплексного ухода" },
-  { src: "/images/work-body.webp", alt: "Работа с кузовом автомобиля" },
-  { src: "/images/work-interior.webp", alt: "Реставрация кожаного салона" },
-  { src: "/images/work-engine.webp", alt: "Мойка подкапотного пространства" },
-  { src: "/images/work-mercedes-2.webp", alt: "Полировка кузова Mercedes" },
-  { src: "/images/work-finish.webp", alt: "Финишная подготовка автомобиля" },
-];
-
-const faqs = [
-  {
-    question: "Как лучше защитить автомобиль от внешней среды и повреждений?",
-    answer:
-      "Один из самых эффективных методов — оклейка полиуретановой плёнкой. Керамическое покрытие дополняет защиту: снижает влияние ультрафиолета, реагентов и низких температур.",
-  },
-  {
-    question: "Обязательно ли окрашивать кузовную деталь после повреждения?",
-    answer:
-      "Не всегда. Во многих случаях проблему можно решить полировкой или ремонтом вмятин без окраса, сохранив заводское лакокрасочное покрытие.",
-  },
-  {
-    question: "Можно ли выполнить локальный ремонт без замены детали?",
-    answer:
-      "Да. Локальный ремонт часто позволяет сохранить оригинальную деталь. Например, скол или трещину лобового стекла можно устранить без полной замены стекла.",
-  },
-  {
-    question: "Почему цена отличается для двух одинаковых автомобилей?",
-    answer:
-      "Стоимость зависит не только от размера автомобиля, но и от характера загрязнений или повреждений, объёма материалов и времени мастера. Точная цена определяется после осмотра.",
-  },
-];
-
 type SubmitState = "idle" | "sending" | "success" | "error";
 
-function ArrowUpRightIcon({ className = "arrow-icon" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-      <path d="M5 15 15 5M7 5h8v8" />
-    </svg>
-  );
+function ArrowDownIcon() {
+  return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 4v15M6.5 13.5 12 19l5.5-5.5" /></svg>;
 }
 
-function ArrowRightIcon({ className = "arrow-icon" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-      <path d="M4 10h12m-5-5 5 5-5 5" />
-    </svg>
-  );
+function ArrowUpRightIcon() {
+  return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M6 18 18 6M8 6h10v10" /></svg>;
 }
 
-function ArrowUpIcon({ className = "arrow-icon" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-      <path d="M10 16V4M5 9l5-5 5 5" />
-    </svg>
-  );
+function ArrowUpIcon() {
+  return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 20V5M6.5 10.5 12 5l5.5 5.5" /></svg>;
 }
 
 export default function Home() {
@@ -123,73 +55,52 @@ export default function Home() {
 
   useEffect(() => {
     const root = document.documentElement;
-    const progress = document.querySelector<HTMLElement>(".scroll-progress__bar");
-    const revealItems = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-reveal]"),
-    );
+    const revealItems = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
     const hero = document.querySelector<HTMLElement>(".hero");
-    const heroVideo = document.querySelector<HTMLVideoElement>(".hero-media video");
+    const heroVideo = document.querySelector<HTMLVideoElement>(".hero-video");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let scrollFrame = 0;
 
     root.classList.add("motion-ready");
+    const updateHeader = () => root.classList.toggle("site-scrolled", window.scrollY > 24);
 
-    const updateScroll = () => {
-      scrollFrame = 0;
-      const scrollRange = document.documentElement.scrollHeight - window.innerHeight;
-      const ratio = scrollRange > 0 ? Math.min(window.scrollY / scrollRange, 1) : 0;
-      root.classList.toggle("site-scrolled", window.scrollY > 24);
-      progress?.style.setProperty("transform", `scaleX(${ratio})`);
-    };
-
-    const onScroll = () => {
-      if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScroll);
-    };
-
-    let observer: IntersectionObserver | undefined;
+    let revealObserver: IntersectionObserver | undefined;
     let videoObserver: IntersectionObserver | undefined;
 
     if (reduceMotion || !("IntersectionObserver" in window)) {
       revealItems.forEach((item) => item.classList.add("is-visible"));
       if (reduceMotion) heroVideo?.pause();
     } else {
-      observer = new IntersectionObserver(
+      revealObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
             entry.target.classList.add("is-visible");
-            observer?.unobserve(entry.target);
+            revealObserver?.unobserve(entry.target);
           });
         },
-        { rootMargin: "0px 0px -10%", threshold: 0.08 },
+        { rootMargin: "0px 0px -8%", threshold: 0.08 },
       );
-      revealItems.forEach((item) => observer?.observe(item));
+      revealItems.forEach((item) => revealObserver?.observe(item));
 
       if (hero && heroVideo) {
         videoObserver = new IntersectionObserver(
           ([entry]) => {
-            if (entry.isIntersecting) {
-              void heroVideo.play().catch(() => undefined);
-            } else {
-              heroVideo.pause();
-            }
+            if (entry.isIntersecting) void heroVideo.play().catch(() => undefined);
+            else heroVideo.pause();
           },
-          { threshold: 0.05 },
+          { threshold: 0.08 },
         );
         videoObserver.observe(hero);
       }
     }
 
-    updateScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
 
     return () => {
-      observer?.disconnect();
+      revealObserver?.disconnect();
       videoObserver?.disconnect();
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
+      window.removeEventListener("scroll", updateHeader);
       root.classList.remove("motion-ready", "site-scrolled");
     };
   }, []);
@@ -202,7 +113,6 @@ export default function Home() {
     event.preventDefault();
     const form = event.currentTarget;
     const formData = new FormData(form);
-
     setSubmitState("sending");
     setSubmitMessage("");
 
@@ -211,69 +121,38 @@ export default function Home() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: formData.get("name"),
-          phone: formData.get("phone"),
-          car: formData.get("car"),
-          service: formData.get("service"),
-          visitDate: formData.get("visitDate"),
-          visitTime: formData.get("visitTime"),
-          comment: formData.get("comment"),
-          company: formData.get("company"),
+          name: formData.get("name"), phone: formData.get("phone"), car: formData.get("car"),
+          service: formData.get("service"), visitDate: formData.get("visitDate"),
+          visitTime: formData.get("visitTime"), comment: formData.get("comment"), company: formData.get("company"),
         }),
       });
-
       const result = (await response.json()) as { error?: string };
-      if (!response.ok) {
-        throw new Error(result.error || "Не удалось отправить заявку");
-      }
-
+      if (!response.ok) throw new Error(result.error || "Не удалось отправить заявку");
       form.reset();
       setSubmitState("success");
-      setSubmitMessage("Заявка принята. Мы свяжемся с вами для подтверждения записи.");
+      setSubmitMessage("Заявка принята. Мы свяжемся с вами и подтвердим запись.");
     } catch (error) {
       setSubmitState("error");
-      setSubmitMessage(
-        error instanceof Error
-          ? error.message
-          : "Не удалось отправить заявку. Позвоните нам напрямую.",
-      );
+      setSubmitMessage(error instanceof Error ? error.message : "Не удалось отправить заявку. Позвоните нам напрямую.");
     }
   }
 
   return (
     <main id="top">
-      <div className="scroll-progress" aria-hidden="true">
-        <span className="scroll-progress__bar" />
-      </div>
       <header className="site-header">
-        <div className="shell header-inner">
-          <a className="brand" href="#top" aria-label="DplusD Detailing Center">
-            <img src="/logo.png" alt="DplusD Detailing Center" />
-          </a>
-
+        <div className="header-inner">
+          <a className="brand" href="#top" aria-label="DplusD Detailing Center"><img src="/logo.png" alt="DplusD Detailing Center" /></a>
+          <p className="header-address">Москва · Краснобогатырская, 89 стр. 4</p>
           <nav className="desktop-nav" aria-label="Основная навигация">
-            <a href="#services">Услуги</a>
-            <a href="#works">Работы</a>
-            <a href="#offers">Акции</a>
-            <a href="#contacts">Контакты</a>
+            <a href="#works">Работы</a><a href="#services">Услуги</a><a href="#contacts">Контакты</a>
           </nav>
-
-          <a className="header-phone" href="tel:+79165042101">
-            +7 916 504-21-01
-          </a>
-
+          <a className="header-action" href="#booking">Записаться <ArrowUpRightIcon /></a>
           <details className="mobile-menu">
-            <summary aria-label="Открыть меню">
-              <span className="menu-label">Меню</span>
-              <span className="menu-icon" aria-hidden="true">
-                <i />
-                <i />
-              </span>
-            </summary>
-            <nav>
-              <a href="#services" onClick={closeMobileMenu}>Услуги</a>
+            <summary aria-label="Открыть меню"><span /><span /></summary>
+            <nav aria-label="Мобильная навигация">
               <a href="#works" onClick={closeMobileMenu}>Работы</a>
-              <a href="#offers" onClick={closeMobileMenu}>Акции</a>
+              <a href="#services" onClick={closeMobileMenu}>Услуги</a>
+              <a href="#booking" onClick={closeMobileMenu}>Записаться</a>
               <a href="#contacts" onClick={closeMobileMenu}>Контакты</a>
               <a href="tel:+79165042101" onClick={closeMobileMenu}>+7 916 504-21-01</a>
             </nav>
@@ -283,286 +162,159 @@ export default function Home() {
 
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-media" aria-hidden="true">
-          <video
-            autoPlay
-            disablePictureInPicture
-            loop
-            muted
-            playsInline
-            poster="/images/hero.webp"
-            preload="auto"
-            tabIndex={-1}
-          >
+          <video className="hero-video" autoPlay disablePictureInPicture loop muted playsInline poster="/images/hero.webp" preload="auto" tabIndex={-1}>
             <source media="(max-width: 620px)" src="/hero-detailing-mobile.mp4" type="video/mp4" />
             <source src="/hero-detailing.mp4" type="video/mp4" />
           </video>
         </div>
-        <div className="hero-vignette" aria-hidden="true" />
-        <div className="shell hero-content">
-          <p className="eyebrow">Москва · Краснобогатырская 89, стр. 4</p>
-          <h1 id="hero-title">
-            Детейлинг,
-            <span> достойный вашего автомобиля</span>
-          </h1>
-          <p className="hero-copy">
-            Комплексный уход за кузовом и салоном. Восстанавливаем детали,
-            защищаем поверхности и возвращаем автомобилю безупречный вид.
-          </p>
-          <div className="hero-actions">
-            <a className="button button-primary" href="#booking">
-              Записаться
-              <ArrowUpRightIcon />
-            </a>
-            <a className="button button-ghost" href="#services">
-              Смотреть услуги
-            </a>
+        <div className="hero-shade" aria-hidden="true" />
+        <div className="hero-copy">
+          <p className="hero-kicker">DplusD · Detailing Center · Moscow</p>
+          <h1 id="hero-title"><span>А тебе нужен</span><strong>Детейлинг?</strong></h1>
+        </div>
+        <a className="hero-cta" href="#works"><span>Хочу!</span><ArrowDownIcon /></a>
+        <p className="hero-note">Кузов · Салон · Защита · Реставрация</p>
+      </section>
+
+      <section className="works-section" id="works" aria-labelledby="works-title">
+        <div className="page-shell works-intro" data-reveal>
+          <div className="section-index"><span>01 / 04</span><span>Избранные работы</span></div>
+          <h2 id="works-title">Сделано<span>в DplusD.</span></h2>
+          <div className="works-lead">
+            <p>Не прячем результат за рамками и фильтрами. Машина, свет и работа, которую видно с первого взгляда.</p>
+            <span className="signal-dot" aria-hidden="true" />
           </div>
         </div>
-        <div className="hero-bottom shell">
-          <p>Кузов</p>
-          <p>Интерьер</p>
-          <p>Защита</p>
-          <p>Реставрация</p>
+
+        <div className="project-feed">
+          {projects.map((project, index) => (
+            <figure className={`project project-${index + 1}`} data-reveal="image" key={project.src}>
+              <figcaption>
+                <span className="project-number">/{project.number}</span>
+                <h3>{project.car}</h3>
+                <span className="project-task">{project.task}</span>
+              </figcaption>
+              <div className="project-media">
+                <img src={project.src} alt={project.alt} width="1448" height="1086" loading={index === 0 ? "eager" : "lazy"} decoding="async" />
+              </div>
+            </figure>
+          ))}
+        </div>
+
+        <div className="page-shell works-outro" data-reveal>
+          <p>Следующая машина может быть вашей.</p>
+          <a className="pill-action" href="#booking">Записаться <ArrowUpRightIcon /></a>
         </div>
       </section>
 
-      <section className="section services-section" id="services">
-        <div className="shell">
-          <div className="section-heading split-heading" data-reveal="up">
-            <div>
-              <p className="eyebrow">Полный комплекс</p>
-              <h2>Услуги студии</h2>
-            </div>
-            <p>
-              Подбираем технологию под состояние автомобиля. Не предлагаем
-              лишнего — только те работы, которые дадут заметный результат.
-            </p>
+      <section className="comparison-section" aria-labelledby="comparison-title">
+        <div className="page-shell">
+          <div className="section-index" data-reveal><span>02 / 04</span><span>До и после</span></div>
+          <div className="comparison-heading" data-reveal>
+            <h2 id="comparison-title">Разница без объяснений.</h2>
+            <p>Передвиньте взгляд слева направо. Этого достаточно.</p>
           </div>
-
-          <div className="services-list">
-            {services.map((service) => (
-              <a className="service-row" data-reveal="row" href="#booking" key={service.number}>
-                <span className="service-number">{service.number}</span>
-                <h3>{service.title}</h3>
-                <p>{service.short}</p>
-                <span className="service-arrow" aria-hidden="true">
-                  <ArrowUpRightIcon />
-                </span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section craft-section">
-        <div className="shell craft-grid">
-          <div className="craft-image craft-image-main" data-reveal="image" role="img" aria-label="Полировка кузова автомобиля" />
-          <div className="craft-copy" data-reveal="up">
-            <p className="eyebrow">Точность в каждой детали</p>
-            <h2>Не маскируем. Восстанавливаем.</h2>
-            <p>
-              Полировка возвращает глубину цвета и гладкость покрытия.
-              Керамика защищает лак от ультрафиолета, воды и грязи. Плёнка
-              принимает на себя механические повреждения и сохраняет заводской
-              вид автомобиля.
-            </p>
-            <a className="text-link" href="#booking">
-              Получить консультацию <ArrowRightIcon />
-            </a>
-          </div>
-          <div className="craft-image craft-image-detail" data-reveal="image" role="img" aria-label="Детейлинг интерьера автомобиля" />
-        </div>
-      </section>
-
-      <section className="section works-section" id="works">
-        <div className="shell">
-          <div className="section-heading split-heading" data-reveal="up">
-            <div>
-              <p className="eyebrow">Реальные автомобили</p>
-              <h2>Наши работы</h2>
-            </div>
-            <p>
-              Фрагменты работ студии: восстановление кузова, химчистка,
-              полировка, уход за интерьером и подкапотным пространством.
-            </p>
-          </div>
-
-          <p className="mobile-swipe-hint" aria-hidden="true">Проведите в сторону, чтобы увидеть больше</p>
-
-          <div className="gallery-grid">
-            {gallery.map((item, index) => (
-              <figure className={`gallery-item gallery-item-${index + 1}`} data-reveal="image" key={item.src}>
-                <img src={item.src} alt={item.alt} loading="lazy" />
-                <figcaption>
-                  <span>Работа {String(index + 1).padStart(2, "0")}</span>
-                  <span>DplusD Studio</span>
-                </figcaption>
+          <div className="comparison-grid">
+            {comparisons.map((comparison) => (
+              <figure className="comparison-card" data-reveal="image" key={comparison.src}>
+                <img src={comparison.src} alt={comparison.alt} width="1448" height="1086" loading="lazy" decoding="async" />
+                <figcaption><span>/{comparison.number}</span><h3>{comparison.title}</h3><p>{comparison.text}</p></figcaption>
               </figure>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section offers-section" id="offers">
-        <div className="shell">
-          <div className="section-heading" data-reveal="up">
-            <p className="eyebrow">Специальные условия</p>
-            <h2>Актуальные предложения</h2>
+      <section className="services-section" id="services" aria-labelledby="services-title">
+        <div className="page-shell">
+          <div className="section-index" data-reveal><span>03 / 04</span><span>Что мы делаем</span></div>
+          <div className="services-heading" data-reveal>
+            <h2 id="services-title">Всё, что нужно автомобилю. Ничего лишнего.</h2>
+            <p>Сначала осматриваем машину. Потом предлагаем только тот состав работ, который действительно даст результат.</p>
           </div>
-
-          <div className="offers-grid">
-            <article className="offer-card offer-card-dark" data-reveal="up">
-              <span className="offer-index">01</span>
-              <p className="offer-value">−10%</p>
-              <h3>Сезонная мойка автомобиля</h3>
-              <p>
-                Акцентированная очистка сезонных загрязнений на лакокрасочном
-                покрытии автомобиля со скидкой.
-              </p>
-              <a href="#booking">Записаться</a>
-            </article>
-            <article className="offer-card offer-card-image" data-reveal="up">
-              <span className="offer-index">02</span>
-              <p className="offer-value">В подарок</p>
-              <h3>Мойка ДВС и подкапотного пространства</h3>
-              <p>При записи на мойку нижней части кузова.</p>
-              <a href="#booking">Записаться</a>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="section faq-section">
-        <div className="shell faq-grid">
-          <div className="section-heading faq-heading" data-reveal="up">
-            <p className="eyebrow">Перед записью</p>
-            <h2>Частые вопросы</h2>
-            <p>
-              Если вашего вопроса нет в списке, позвоните или оставьте заявку —
-              мастер подскажет подходящее решение.
-            </p>
-          </div>
-          <div className="faq-list">
-            {faqs.map((item, index) => (
-              <details key={item.question} data-reveal="row" open={index === 0}>
-                <summary>
-                  <span>{item.question}</span>
-                  <span className="faq-plus" aria-hidden="true">+</span>
-                </summary>
-                <p>{item.answer}</p>
-              </details>
+          <div className="services-list">
+            {services.map((service) => (
+              <a className="service-row" data-reveal="row" href="#booking" key={service.number}>
+                <span className="service-number">{service.number}</span><h3>{service.title}</h3><p>{service.short}</p>
+                <span className="service-arrow" aria-hidden="true"><ArrowUpRightIcon /></span>
+              </a>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section booking-section" id="booking">
-        <div className="shell booking-grid">
-          <div className="booking-intro" data-reveal="up">
-            <p className="eyebrow">Консультация и запись</p>
-            <h2>Рассчитаем стоимость для вашего автомобиля</h2>
-            <p>
-              Заполните форму. Мы уточним состояние автомобиля, согласуем
-              состав работ и удобное время визита.
-            </p>
-            <div className="booking-contact">
-              <span>Можно связаться напрямую</span>
-              <a href="tel:+79165042101">+7 916 504-21-01</a>
-              <a href="https://t.me/DplusD_Detailing_Studio" target="_blank" rel="noreferrer">
-                Telegram студии
-              </a>
+      <section className="booking-section" id="booking" aria-labelledby="booking-title">
+        <div className="page-shell">
+          <div className="section-index" data-reveal><span>04 / 04</span><span>Запись</span></div>
+          <div className="booking-layout">
+            <div className="booking-copy" data-reveal>
+              <h2 id="booking-title">Покажите нам автомобиль.</h2>
+              <p>Укажите удобную дату и время. Мы уточним задачу, рассчитаем стоимость и подтвердим визит.</p>
+              <div className="direct-contact">
+                <span>Или свяжитесь напрямую</span>
+                <a href="tel:+79165042101">+7 916 504-21-01</a>
+                <a href="https://t.me/DplusD_Detailing_Studio" target="_blank" rel="noreferrer">Telegram студии</a>
+              </div>
             </div>
-          </div>
 
-          <form className="booking-form" data-reveal="up" onSubmit={handleSubmit}>
-            <div className="form-grid">
-              <label>
-                <span>Ваше имя</span>
-                <input name="name" type="text" autoComplete="name" required maxLength={80} placeholder="Имя" />
+            <form className="booking-form" data-reveal onSubmit={handleSubmit}>
+              <div className="form-grid">
+                <label><span>Ваше имя</span><input name="name" type="text" autoComplete="name" required maxLength={80} placeholder="Имя" /></label>
+                <label><span>Телефон</span><input name="phone" type="tel" inputMode="tel" autoComplete="tel" required maxLength={30} placeholder="+7 999 000-00-00" /></label>
+                <label><span>Автомобиль</span><input name="car" type="text" required maxLength={100} placeholder="Марка и модель" /></label>
+                <label>
+                  <span>Услуга</span>
+                  <select name="service" required defaultValue="">
+                    <option value="" disabled>Выберите услугу</option>
+                    {services.map((service) => <option value={service.title} key={service.number}>{service.title}</option>)}
+                    <option value="Консультация">Нужна консультация</option>
+                  </select>
+                </label>
+                <label><span>Желаемая дата</span><input name="visitDate" type="date" required /></label>
+                <label>
+                  <span>Желаемое время</span>
+                  <select name="visitTime" required defaultValue="">
+                    <option value="" disabled>Выберите время</option>
+                    {timeSlots.map((time) => <option value={time} key={time}>{time}</option>)}
+                  </select>
+                </label>
+              </div>
+              <label className="form-comment"><span>Комментарий</span><textarea name="comment" rows={3} maxLength={800} placeholder="Опишите задачу или состояние автомобиля" /></label>
+              <label className="honeypot" aria-hidden="true">Компания<input name="company" type="text" tabIndex={-1} autoComplete="off" /></label>
+              <label className="consent">
+                <input type="checkbox" required />
+                <span>Я согласен с <a href="https://dplusd.moscow/privacy" target="_blank" rel="noreferrer">политикой конфиденциальности</a></span>
               </label>
-              <label>
-                <span>Телефон</span>
-                <input name="phone" type="tel" autoComplete="tel" required maxLength={30} placeholder="+7 999 000-00-00" />
-              </label>
-              <label>
-                <span>Автомобиль</span>
-                <input name="car" type="text" required maxLength={100} placeholder="Марка и модель" />
-              </label>
-              <label>
-                <span>Услуга</span>
-                <select name="service" required defaultValue="">
-                  <option value="" disabled>Выберите услугу</option>
-                  {services.map((service) => (
-                    <option value={service.title} key={service.number}>{service.title}</option>
-                  ))}
-                  <option value="Консультация">Нужна консультация</option>
-                </select>
-              </label>
-              <label>
-                <span>Желаемая дата</span>
-                <input name="visitDate" type="date" required />
-              </label>
-              <label>
-                <span>Желаемое время</span>
-                <select name="visitTime" required defaultValue="">
-                  <option value="" disabled>Выберите время</option>
-                  {timeSlots.map((time) => (
-                    <option value={time} key={time}>{time}</option>
-                  ))}
-                </select>
-              </label>
-            </div>
-            <label className="form-comment">
-              <span>Комментарий</span>
-              <textarea name="comment" rows={4} maxLength={800} placeholder="Опишите состояние автомобиля или задачу" />
-            </label>
-            <label className="honeypot" aria-hidden="true">
-              Компания
-              <input name="company" type="text" tabIndex={-1} autoComplete="off" />
-            </label>
-            <label className="consent">
-              <input type="checkbox" required />
-              <span>
-                Я согласен с <a href="https://dplusd.moscow/privacy" target="_blank" rel="noreferrer">политикой конфиденциальности</a>
-              </span>
-            </label>
-            <div className="form-submit-row">
-              <button className="button button-primary" type="submit" disabled={submitState === "sending"}>
-                {submitState === "sending" ? "Отправляем…" : "Отправить заявку"}
-              </button>
-              <p className={`form-status form-status-${submitState}`} role="status" aria-live="polite">
-                {submitMessage}
-              </p>
-            </div>
-          </form>
+              <div className="form-submit">
+                <button className="pill-action" type="submit" disabled={submitState === "sending"}>
+                  {submitState === "sending" ? "Отправляем…" : "Отправить заявку"}<ArrowUpRightIcon />
+                </button>
+                <p className={`form-status form-status-${submitState}`} role="status" aria-live="polite">{submitMessage}</p>
+              </div>
+            </form>
+          </div>
         </div>
       </section>
 
-      <section className="contact-section" id="contacts">
-        <div className="shell contact-grid">
-          <div data-reveal="up">
-            <p className="eyebrow">DplusD Detailing Center</p>
-            <h2>Привезите автомобиль. Остальное — наша работа.</h2>
-          </div>
-          <div className="contact-list" data-reveal="up">
-            <a href="tel:+79165042101">+7 916 504-21-01</a>
-            <a href="mailto:info@dplusd.moscow">info@dplusd.moscow</a>
+      <section className="contact-section" id="contacts" aria-labelledby="contacts-title">
+        <div className="page-shell contact-layout">
+          <div data-reveal><p className="contact-kicker">DplusD Detailing Center · Москва</p><h2 id="contacts-title">Давайте вернём машине правильный вид.</h2></div>
+          <div className="contact-details" data-reveal>
+            <a className="contact-phone" href="tel:+79165042101">+7 916 504-21-01</a>
             <p>Москва, ул. Краснобогатырская, д. 89, стр. 4</p>
+            <a href="mailto:info@dplusd.moscow">info@dplusd.moscow</a>
             <a href="https://t.me/DplusD_Detailing_Studio" target="_blank" rel="noreferrer">Telegram</a>
           </div>
         </div>
       </section>
 
       <footer className="site-footer">
-        <div className="shell footer-inner">
-          <span className="footer-logo">
-            <img src="/logo.png" alt="DplusD Detailing Center" />
-          </span>
-          <p>© 2026 DplusD Detailing Center. Все права защищены.</p>
-          <a className="footer-top-link" href="#top">Наверх <ArrowUpIcon /></a>
+        <div className="page-shell footer-inner">
+          <a className="footer-logo" href="#top" aria-label="DplusD — наверх"><img src="/logo.png" alt="DplusD Detailing Center" /></a>
+          <p>© 2026 DplusD Detailing Center</p>
+          <a className="to-top" href="#top">Наверх <ArrowUpIcon /></a>
         </div>
       </footer>
-
     </main>
   );
 }
