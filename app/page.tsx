@@ -36,6 +36,7 @@ const timeSlots = Array.from({ length: 25 }, (_, index) => {
 });
 
 type SubmitState = "idle" | "sending" | "success" | "error";
+type IntroPhase = "counting" | "reveal" | "exit" | "done";
 
 function ArrowDownIcon() {
   return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 4v15M6.5 13.5 12 19l5.5-5.5" /></svg>;
@@ -52,6 +53,49 @@ function ArrowUpIcon() {
 export default function Home() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [submitMessage, setSubmitMessage] = useState("");
+  const [introNumber, setIntroNumber] = useState(1);
+  const [introPhase, setIntroPhase] = useState<IntroPhase>("counting");
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const heroVideo = document.querySelector<HTMLVideoElement>(".hero-video");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const timers: number[] = [];
+
+    root.classList.add("intro-active");
+    heroVideo?.pause();
+
+    const finishIntro = () => {
+      setIntroPhase("done");
+      root.classList.remove("intro-active");
+
+      if (heroVideo && !reduceMotion) {
+        heroVideo.currentTime = 0;
+        void heroVideo.play().catch(() => undefined);
+      }
+    };
+
+    if (reduceMotion) {
+      timers.push(window.setTimeout(() => {
+        setIntroNumber(7);
+        setIntroPhase("reveal");
+      }, 0));
+      timers.push(window.setTimeout(() => setIntroPhase("exit"), 650));
+      timers.push(window.setTimeout(finishIntro, 1050));
+    } else {
+      [2, 3, 4, 5, 6, 7].forEach((number, index) => {
+        timers.push(window.setTimeout(() => setIntroNumber(number), 520 * (index + 1)));
+      });
+      timers.push(window.setTimeout(() => setIntroPhase("reveal"), 3660));
+      timers.push(window.setTimeout(() => setIntroPhase("exit"), 5000));
+      timers.push(window.setTimeout(finishIntro, 5800));
+    }
+
+    return () => {
+      timers.forEach((timer) => window.clearTimeout(timer));
+      root.classList.remove("intro-active");
+    };
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -85,7 +129,9 @@ export default function Home() {
       if (hero && heroVideo) {
         videoObserver = new IntersectionObserver(
           ([entry]) => {
-            if (entry.isIntersecting) void heroVideo.play().catch(() => undefined);
+            if (entry.isIntersecting && !root.classList.contains("intro-active")) {
+              void heroVideo.play().catch(() => undefined);
+            }
             else heroVideo.pause();
           },
           { threshold: 0.08 },
@@ -138,7 +184,17 @@ export default function Home() {
   }
 
   return (
-    <main id="top">
+    <>
+      {introPhase !== "done" && (
+        <div className={`intro-screen intro-screen--${introPhase}`} aria-hidden="true">
+          <div className="intro-lockup">
+            <span className="intro-number" key={introNumber}>{introNumber}</span>
+            <span className="intro-label">лет на рынке</span>
+          </div>
+        </div>
+      )}
+
+      <main id="top">
       <header className="site-header">
         <div className="header-inner">
           <a className="brand" href="#top" aria-label="DplusD Detailing Center"><img src="/logo.png" alt="DplusD Detailing Center" /></a>
@@ -315,6 +371,7 @@ export default function Home() {
           <a className="to-top" href="#top">Наверх <ArrowUpIcon /></a>
         </div>
       </footer>
-    </main>
+      </main>
+    </>
   );
 }

@@ -33,6 +33,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+html.intro-active,
+html.intro-active body {
+  overflow: hidden;
+}
+
 body::selection {
   background: var(--signal);
   color: white;
@@ -75,6 +80,88 @@ svg path {
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
+}
+
+.intro-screen {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  place-items: center;
+  background: #000;
+  color: white;
+  opacity: 1;
+}
+
+.intro-lockup {
+  position: relative;
+  width: 100%;
+  height: min(68vh, 660px);
+  transition: transform 900ms var(--ease);
+}
+
+.intro-number,
+.intro-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  white-space: nowrap;
+}
+
+.intro-number {
+  z-index: 2;
+  font-size: min(35vw, 520px);
+  font-weight: 300;
+  letter-spacing: -0.085em;
+  line-height: 0.72;
+  transform: translate(-50%, -50%);
+  transition: transform 950ms var(--ease);
+  animation: intro-number-in 460ms var(--ease) both;
+}
+
+.intro-label {
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.96);
+  font-size: clamp(48px, 6.2vw, 108px);
+  font-weight: 300;
+  letter-spacing: -0.055em;
+  line-height: 0.88;
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  transform: translate(-34%, -50%);
+  transition:
+    opacity 360ms ease,
+    clip-path 1000ms var(--ease),
+    transform 1000ms var(--ease);
+}
+
+.intro-screen--reveal .intro-lockup,
+.intro-screen--exit .intro-lockup {
+  transform: translateX(-3.5vw);
+}
+
+.intro-screen--reveal .intro-number,
+.intro-screen--exit .intro-number {
+  transform: translate(-112%, -50%);
+}
+
+.intro-screen--reveal .intro-label,
+.intro-screen--exit .intro-label {
+  opacity: 1;
+  clip-path: inset(0);
+  transform: translate(4%, -50%);
+}
+
+.intro-screen--exit {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 800ms var(--ease);
+}
+
+@keyframes intro-number-in {
+  from { opacity: 0; filter: blur(12px); }
+  to { opacity: 1; filter: blur(0); }
 }
 
 .page-shell {
@@ -1161,6 +1248,34 @@ svg path {
 }
 
 @media (max-width: 620px) {
+  .intro-lockup {
+    height: 58vh;
+  }
+
+  .intro-number {
+    font-size: 62vw;
+  }
+
+  .intro-label {
+    font-size: 7.8vw;
+    letter-spacing: -0.045em;
+  }
+
+  .intro-screen--reveal .intro-lockup,
+  .intro-screen--exit .intro-lockup {
+    transform: translateX(-2vw);
+  }
+
+  .intro-screen--reveal .intro-number,
+  .intro-screen--exit .intro-number {
+    transform: translate(-105%, -50%);
+  }
+
+  .intro-screen--reveal .intro-label,
+  .intro-screen--exit .intro-label {
+    transform: translate(0, -50%);
+  }
+
   .page-shell {
     width: calc(100% - 36px);
   }
